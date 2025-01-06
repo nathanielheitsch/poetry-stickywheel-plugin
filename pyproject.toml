@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "poetry-stickywheel-plugin"
-version = "0.2.0"
+version = "0.2.1"
 description = ""
 authors = ["Daniel Knell <contact@danielknell.co.uk>"]
 readme = "README.md"
@@ -8,7 +8,7 @@ packages = [{include = "poetry_stickywheel_plugin.py", from = "src"}]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-poetry = "^1.2"
+poetry = "^2.0"
 
 [tool.poetry.group.dev.dependencies]
 shed = ">=0.10.1,<2023.7.0"
