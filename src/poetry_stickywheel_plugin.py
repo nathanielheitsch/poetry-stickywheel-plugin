@@ -13,6 +13,7 @@ import poetry.core.packages.directory_dependency
 import poetry.core.pyproject.exceptions
 import poetry.core.pyproject.toml
 import poetry.plugins.application_plugin
+from poetry.core.pyproject.exceptions import PyProjectError
 
 
 class StickyWheelsConfig:
@@ -31,7 +32,7 @@ class StickyWheelsConfig:
         elif self.strategy == "exact":
             return version
         else:
-            raise poetry.core.pyproject.exceptions.PyProjectException(
+            raise PyProjectError(
                 "Invalid StickyWheel strategy configured."
             )
 
@@ -43,10 +44,11 @@ class StickyWheelsPlugin(poetry.plugins.application_plugin.ApplicationPlugin):
     )
 
     def activate(self, application: poetry.console.application.Application) -> None:
-        application.event_dispatcher.add_listener(
-            cleo.events.console_events.COMMAND,
-            self.event_listener,
-        )
+        if application.event_dispatcher is not None:
+            application.event_dispatcher.add_listener(
+                cleo.events.console_events.COMMAND,
+                self.event_listener,
+            )
         self.package = application.poetry.package
         self.config = StickyWheelsConfig(application.poetry.pyproject)
 
